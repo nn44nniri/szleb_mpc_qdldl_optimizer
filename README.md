@@ -22,13 +22,12 @@ This library uses:
 1. **Online system identification** (RLS) to learn a linear predictive model of the grow room:
    
    $x_{k+1}=A x_k + B u_k + E z_k + b$
-   
+
    where (x=[Tin, RHin]), (u) are actuator decisions, and (z) are exogenous drivers (e.g., Tout/RHout, solar, LAI). 
 
 2. **Fast QP-based MPC** (rather than NLP) to compute actions that track optimal bands with minimal energy. The OSQP formulation is:
-   $$
-   \min \tfrac12 x^T P x + q^T x \quad \text{s.t. } l \le Ax \le u
-   $$
+   
+   $\min \tfrac12 x^T P x + q^T x \quad \text{s.t. } l \le Ax \le u$
 
 
 3. A **C-backed sparse linear algebra kernel** using QDLDL (`QDLDL_etree`, `QDLDL_factor`, `QDLDL_solve`) for repeated KKT solves , enabling factorization reuse and fast iteration.
@@ -50,7 +49,7 @@ This library uses:
 
 We learn a linear model using Recursive Least Squares (RLS):
 
-* Feature vector: (\phi=[x,u,z,1]) 
+* Feature vector: ($\phi=[x,u,z,1]$) 
 * Parameter matrix: (\Theta\in\mathbb{R}^{n_x\times(n_x+n_u+n_z+1)}) 
 * Prediction and update follow standard RLS recursion. 
 
@@ -58,9 +57,8 @@ We learn a linear model using Recursive Least Squares (RLS):
 
 At each step, MPC solves a QP of the form:
 
-$$
-\min \tfrac12 w^T P w + q^T w \quad \text{s.t. } l \le A w \le u
-$$
+
+$\min \tfrac12 w^T P w + q^T w \quad \text{s.t. } l \le A w \le u$
 
 This is well-matched to your learned linear dynamics and quadratic penalties (energy, smoothing, slack penalties).
 
