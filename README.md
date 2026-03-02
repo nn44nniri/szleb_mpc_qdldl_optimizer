@@ -182,6 +182,4 @@ The OSQP approach is designed for **high accuracy** QP solutions using operator 
 ## References
 
 * **OSQP (operator splitting QP solver):** Stellato et al., *OSQP: an operator splitting solver for quadratic programs*, Mathematical Programming Computation (2020). 
-* **QDLDL example usage (etree → factor → solve):** see `qdldl.txt` excerpt. 
-* **Original (legacy) MPC backend using CasADi+IPOPT:** `cs.nlpsol(..., "ipopt", ...)` in `szleb_mpc_qdldl_optimizer.txt`. 
-* **Online model identification:** RLS linear dynamics formalism in `szleb_mpc_qdldl_optimizer.txt`. 
+

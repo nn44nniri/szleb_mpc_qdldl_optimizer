@@ -1,4 +1,4 @@
-Install QDLDL first (required)
+# Install QDLDL first (required)
 
 QDLDL is a C library. You must build and install the shared library so Python can load it.
 
