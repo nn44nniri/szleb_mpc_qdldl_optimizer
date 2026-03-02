@@ -41,6 +41,7 @@ This library uses:
 * **Tertiary:** Learn and adapt online with minimal overhead (RLS model update).
 * **Engineering goal:** Enable real-time optimization: OSQP-style methods are designed to reuse a quasi-definite factorization and support warm-starting and factorization caching. 
 
+[Diagram](images/RL_szleb_mpc_diagram.png)
 ---
 
 ## Formalism
@@ -177,6 +178,7 @@ A common failure mode (seen previously) is “do-nothing control” where trigge
 
 The OSQP approach is designed for **high accuracy** QP solutions using operator splitting with a reusable quasi-definite factorization  and is reported to be typically faster than many interior-point methods on benchmark classes, especially with warm-start/caching. 
 
+[Diagram](images/best_window_000.png)
 ---
 
 ## References
