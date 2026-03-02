@@ -7,6 +7,5 @@ evaluate_szleb_mpcrl_report_v3.py
 train_szleb_mpcrl.py
 train_szleb_mpcrl_v1.py
 szleb_mpcrl/__pycache__/
-szleb_mpcrl/solcers/__pycache__/
 third_party/qdldl/
 
