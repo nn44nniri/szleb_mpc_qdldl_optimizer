@@ -3,7 +3,7 @@
 
 ## Summary
 
-`szleb_mpc_qdldl_optimizer` is a **lightweight Model Predictive Control + Reinforcement Learning (MPCRL)** library for greenhouse / grow-room climate optimization. It aims to keep **key plant vital parameters** (e.g., **inside temperature Tin** and **inside relative humidity RHin**) within **species-specific optimal bands**, while minimizing **actuation energy**.
+`szleb_mpc_qdldl_optimizer` is a **lightweight Model Predictive Control** library for greenhouse / grow-room climate optimization. It aims to keep **key plant vital parameters** (e.g., **inside temperature Tin** and **inside relative humidity RHin**) within **species-specific optimal bands**, while minimizing **actuation energy**.
 
 The library is updated to replace the heavy **CasADi + IPOPT nonlinear program (NLP)** solve  with a **convex Quadratic Program (QP)** solve using an **OSQP-style operator-splitting method**  backed by the **QDLDL** C implementation of **LDLᵀ factorization** . This makes the control loop much more suitable for real-time and edge deployments.
 
@@ -20,9 +20,9 @@ Modern controlled-environment agriculture (CEA) requires balancing:
 This library uses:
 
 1. **Online system identification** (RLS) to learn a linear predictive model of the grow room:
-   $$
-   x_{k+1}=A x_k + B u_k + E z_k + b
-   $$
+   
+   $x_{k+1}=A x_k + B u_k + E z_k + b$
+   
    where (x=[Tin, RHin]), (u) are actuator decisions, and (z) are exogenous drivers (e.g., Tout/RHout, solar, LAI). 
 
 2. **Fast QP-based MPC** (rather than NLP) to compute actions that track optimal bands with minimal energy. The OSQP formulation is:
