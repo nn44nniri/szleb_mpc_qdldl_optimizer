@@ -1,22 +1,30 @@
-Install QDLDL first (required)
+# Install QDLDL first (required)
 
 QDLDL is a C library. You must build and install the shared library so Python can load it.
 
 Option A (recommended): build & install system-wide
 # 1) get QDLDL source
+```bash
 git clone https://github.com/osqp/qdldl.git
 cd qdldl
+```
 
 # 2) build shared library
+```bash
 mkdir -p build && cd build
 cmake .. -DQDLDL_BUILD_SHARED_LIB=ON -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config Release
+```
 
 # 3) install
+```bash
 sudo cmake --install .
+```
 
 # 4) ensure loader sees it
+```bash
 sudo ldconfig
+```
 
 This produces something like libqdldl.so in /usr/local/lib and headers in /usr/local/include.
 
@@ -26,23 +34,28 @@ and they explicitly report using QDLDL in benchmarks
 
 .
 
-Option B: local build + environment variable (no sudo)
+# Option B: local build + environment variable (no sudo)
+```bash
 git clone https://github.com/osqp/qdldl.git
 cd qdldl
 mkdir -p build && cd build
 cmake .. -DQDLDL_BUILD_SHARED_LIB=ON -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config Release
+```
 
 # export for runtime
-export QDLDL_LIB_PATH="$(pwd)/libqdldl.so"
 
+```bash
+export QDLDL_LIB_PATH="$(pwd)/libqdldl.so"
+```
 Our Python loader below supports QDLDL_LIB_PATH.
 
 
 
 
 ## Test:
-* -----------------------------------------------------
+
+```bash
 source /home/shabgard/Desktop/Optimiser/mpcrl-greenhouse/code/env/bin/activate
 cd /home/shabgard/Desktop/Optimiser/mpcrl-greenhouse/code/szleb_mpc_optimizer
 
@@ -70,5 +83,6 @@ b = np.array([1.0, 0.0], dtype=_FLOAT_DTYPE)
 solve_inplace(F, b)
 print("solution x =", b)
 PY
+```
 
 * -----------------------------------------------------

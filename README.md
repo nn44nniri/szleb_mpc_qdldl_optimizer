@@ -3,7 +3,7 @@
 
 ## Summary
 
-`szleb_mpc_qdldl_optimizer` is a **lightweight Model Predictive Control + Reinforcement Learning (MPCRL)** library for greenhouse / grow-room climate optimization. It aims to keep **key plant vital parameters** (e.g., **inside temperature Tin** and **inside relative humidity RHin**) within **species-specific optimal bands**, while minimizing **actuation energy**.
+`szleb_mpc_qdldl_optimizer` is a **lightweight Model Predictive Control** library for greenhouse / grow-room climate optimization. It aims to keep **key plant vital parameters** (e.g., **inside temperature Tin** and **inside relative humidity RHin**) within **species-specific optimal bands**, while minimizing **actuation energy**.
 
 The library is updated to replace the heavy **CasADi + IPOPT nonlinear program (NLP)** solve  with a **convex Quadratic Program (QP)** solve using an **OSQP-style operator-splitting method**  backed by the **QDLDL** C implementation of **LDLᵀ factorization** . This makes the control loop much more suitable for real-time and edge deployments.
 
@@ -20,15 +20,14 @@ Modern controlled-environment agriculture (CEA) requires balancing:
 This library uses:
 
 1. **Online system identification** (RLS) to learn a linear predictive model of the grow room:
-   $$
-   x_{k+1}=A x_k + B u_k + E z_k + b
-   $$
+   
+   $x_{k+1}=A x_k + B u_k + E z_k + b$
+
    where (x=[Tin, RHin]), (u) are actuator decisions, and (z) are exogenous drivers (e.g., Tout/RHout, solar, LAI). 
 
 2. **Fast QP-based MPC** (rather than NLP) to compute actions that track optimal bands with minimal energy. The OSQP formulation is:
-   $$
-   \min \tfrac12 x^T P x + q^T x \quad \text{s.t. } l \le Ax \le u
-   $$
+   
+   $\min \tfrac12 x^T P x + q^T x \quad \text{s.t. } l \le Ax \le u$
 
 
 3. A **C-backed sparse linear algebra kernel** using QDLDL (`QDLDL_etree`, `QDLDL_factor`, `QDLDL_solve`) for repeated KKT solves , enabling factorization reuse and fast iteration.
@@ -42,6 +41,7 @@ This library uses:
 * **Tertiary:** Learn and adapt online with minimal overhead (RLS model update).
 * **Engineering goal:** Enable real-time optimization: OSQP-style methods are designed to reuse a quasi-definite factorization and support warm-starting and factorization caching. 
 
+![Diagram](images/RL_szleb_mpc_diagram.png)
 ---
 
 ## Formalism
@@ -50,7 +50,7 @@ This library uses:
 
 We learn a linear model using Recursive Least Squares (RLS):
 
-* Feature vector: (\phi=[x,u,z,1]) 
+* Feature vector: ($\phi=[x,u,z,1]$) 
 * Parameter matrix: (\Theta\in\mathbb{R}^{n_x\times(n_x+n_u+n_z+1)}) 
 * Prediction and update follow standard RLS recursion. 
 
@@ -58,9 +58,8 @@ We learn a linear model using Recursive Least Squares (RLS):
 
 At each step, MPC solves a QP of the form:
 
-$$
-\min \tfrac12 w^T P w + q^T w \quad \text{s.t. } l \le A w \le u
-$$
+
+$\min \tfrac12 w^T P w + q^T w \quad \text{s.t. } l \le A w \le u$
 
 This is well-matched to your learned linear dynamics and quadratic penalties (energy, smoothing, slack penalties).
 
@@ -179,11 +178,10 @@ A common failure mode (seen previously) is “do-nothing control” where trigge
 
 The OSQP approach is designed for **high accuracy** QP solutions using operator splitting with a reusable quasi-definite factorization  and is reported to be typically faster than many interior-point methods on benchmark classes, especially with warm-start/caching. 
 
+![report](images/best_window_000.png)
 ---
 
 ## References
 
 * **OSQP (operator splitting QP solver):** Stellato et al., *OSQP: an operator splitting solver for quadratic programs*, Mathematical Programming Computation (2020). 
-* **QDLDL example usage (etree → factor → solve):** see `qdldl.txt` excerpt. 
-* **Original (legacy) MPC backend using CasADi+IPOPT:** `cs.nlpsol(..., "ipopt", ...)` in `szleb_mpc_qdldl_optimizer.txt`. 
-* **Online model identification:** RLS linear dynamics formalism in `szleb_mpc_qdldl_optimizer.txt`. 
+
