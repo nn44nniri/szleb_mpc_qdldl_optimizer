@@ -54,7 +54,7 @@ Our Python loader below supports QDLDL_LIB_PATH.
 
 
 ## Test:
-* -----------------------------------------------------
+
 ```bash
 source /home/shabgard/Desktop/Optimiser/mpcrl-greenhouse/code/env/bin/activate
 cd /home/shabgard/Desktop/Optimiser/mpcrl-greenhouse/code/szleb_mpc_optimizer
